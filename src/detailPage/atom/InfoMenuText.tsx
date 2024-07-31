@@ -1,6 +1,6 @@
-import { infoContentProps } from "./InfoImage";
+import { InfoContentProps } from "./InfoProps";
 
-const InfoMenuText = ({ content }: infoContentProps) => {
+const InfoMenuText = ({ content }: InfoContentProps) => {
   return <div>{content}</div>;
 };
 
