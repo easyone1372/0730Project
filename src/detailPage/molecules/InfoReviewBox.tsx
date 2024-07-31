@@ -6,6 +6,7 @@ import { InfoReviewComponentProps } from "./InfoReviewComponent";
 import InfoReviewInputBox from "./InfoReviewInputBox";
 import InfoReviewList from "./InfoReviewList";
 import axios from "axios";
+import { INFO_REVIEW_LIST } from "../../Urls/URLList";
 
 //상세페이지 - 리뷰 전체 박스
 type InfoReviewBoxProps = {
@@ -26,7 +27,7 @@ const InfoReviewBox = ({
   const fetchReviewList = useCallback(async () => {
     try {
       const response = await axios.get<InfoReviewComponentProps[]>(
-        `http://localhost:8080/api/info/info_review/${store_id}`
+        INFO_REVIEW_LIST(store_id)
       );
       setInfoReviewList(response.data.reverse());
     } catch (error) {

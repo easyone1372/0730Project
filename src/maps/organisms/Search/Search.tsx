@@ -4,6 +4,7 @@ import HeaderSection from "../../molecules/HeaderSection/HeaderSection";
 import SearchSection from "../../molecules/SearchSection/SearchSection";
 import SearchResults, { Store } from "../../atom/SearchResults/SearchResults";
 import SortBtn from "../../molecules/sortBtn/SortBtn";
+import { MAP_SEARCH } from "../../../Urls/URLList";
 
 interface SearchProps {
   setResults: React.Dispatch<React.SetStateAction<Store[]>>;
@@ -17,9 +18,7 @@ const Search = ({ setResults, onMarkerHover }: SearchProps) => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get<Store[]>(
-        `http://localhost:8080/bechef/search?query=${query}`
-      );
+      const response = await axios.get<Store[]>(MAP_SEARCH(query));
       setResultsState(response.data);
       setResults(response.data);
     } catch (error) {

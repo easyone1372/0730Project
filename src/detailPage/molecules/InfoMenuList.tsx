@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import InfoMenuComponent, { InfoMenuComponentProps } from "./InfoMenuComponent";
 import axios from "axios";
 import InfoMoreViewBtn from "../atom/InfoMoreViewBtn";
+import { INFO_MENU } from "../../Urls/URLList";
 
 export type InfoMenuListProps = {
   store_id: number;
@@ -12,13 +13,12 @@ const InfoMenuList = ({ store_id }: InfoMenuListProps) => {
     []
   );
   const [visibleList, setVisibleList] = useState<number>(3);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false); //확장되었는지 판단
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/info/info_menu/${store_id}`
-        );
+        const response = await axios.get(INFO_MENU(store_id));
         const data = response.data.map((item: any) => ({
           ...item,
           kitIngredient: item.kitIngredient
@@ -37,7 +37,8 @@ const InfoMenuList = ({ store_id }: InfoMenuListProps) => {
   }, [store_id]);
 
   const handleView = async () => {
-    setVisibleList(infoMenuList.length);
+    setIsExpanded(!isExpanded);
+    setVisibleList(isExpanded ? 3 : infoMenuList.length);
   };
 
   return (
@@ -56,11 +57,12 @@ const InfoMenuList = ({ store_id }: InfoMenuListProps) => {
           description={data.description}
         />
       ))}
-      {visibleList < infoMenuList.length && (
-        <div className="flex justify-center items-center">
-          <InfoMoreViewBtn content="더보기" clickEvent={handleView} />
-        </div>
-      )}
+      <div className="flex justify-center items-center">
+        <InfoMoreViewBtn
+          content={isExpanded ? "줄이기" : "더보기"}
+          clickEvent={handleView}
+        />
+      </div>
     </div>
   );
 };

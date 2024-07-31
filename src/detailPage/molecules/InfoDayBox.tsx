@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { InfoPageBoxProps } from "./InfoPageBox";
 import axios from "axios";
 import InfoDayDetail, { InfoDayDetailProps } from "../atom/InfoDayDetail";
+import { INFO_TIME } from "../../Urls/URLList";
 
 export type InfoDayBoxProps = {
   store_id: number;
@@ -24,9 +25,7 @@ const InfoDayBox = ({ store_id }: InfoDayBoxProps) => {
   useEffect(() => {
     const fetchDays = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/info/time/${store_id}`
-        );
+        const response = await axios.get(INFO_TIME(store_id));
         const data = await response.data;
 
         const mappedData = data.map((item: any) => ({

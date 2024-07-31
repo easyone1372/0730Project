@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import InfoSolidHeart from "../atom/InfoSolidHeart";
 import InfoHeartIcon from "../atom/InfoHeartIcon";
 import { jwtDecode } from "jwt-decode";
+import { INFO_GET_FAVORITE, INFO_POST_FAVORITE } from "../../Urls/URLList";
 
 type InfoClickHeartProps = {
   storeId: number;
@@ -38,7 +39,8 @@ const InfoClickHeart = ({ storeId }: InfoClickHeartProps) => {
         try {
           const token = localStorage.getItem("jwt-token");
           const response = await axios.get<FavoriteResponse>(
-            `http://localhost:8080/api/info/favorites/${storeId}/${memberIdx}`,
+            //`http://localhost:8080/api/info/favorites/${storeId}/${memberIdx}`,
+            INFO_GET_FAVORITE(storeId, memberIdx),
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -74,7 +76,7 @@ const InfoClickHeart = ({ storeId }: InfoClickHeartProps) => {
     try {
       const token = localStorage.getItem("jwt-token");
       const response = await axios.post<FavoriteResponse>(
-        `http://localhost:8080/api/info/favorites`,
+        INFO_POST_FAVORITE(),
         {
           memberIdx: memberIdx,
           storeId,
