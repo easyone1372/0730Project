@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import InfoPageComponent, { InfoPageComponentProps } from "./InfoPageComponent";
 import axios from "axios";
+import { INFO_PAGE } from "../../Urls/URLList";
 
 export type InfoPageBoxProps = {
   store_id: number; // 가게ID
@@ -10,11 +11,10 @@ export type InfoPageBoxProps = {
 
 const InfoPageBox = ({
   store_id,
-  member_idx, 
+  member_idx,
   averageRating,
 }: InfoPageBoxProps) => {
-  
-    // infoPageData 상태를 선언하고 초기값을 null로 설정
+  // infoPageData 상태를 선언하고 초기값을 null로 설정
   const [infoPageData, setInfoPageData] = useState<Omit<
     InfoPageComponentProps,
     "store_id" | "member_idx" | "store_rating"
@@ -24,9 +24,8 @@ const InfoPageBox = ({
     try {
       const response = await axios.get<
         Omit<InfoPageComponentProps, "store_id" | "member_idx" | "store_rating">
-      >(`http://localhost:8080/api/info/info_page/${store_id}`);
+      >(INFO_PAGE(store_id));
       const data = response.data;
-      console.log("infopagebox에서 가져온 데이터", data);
       setInfoPageData(data);
     } catch (error) {
       console.error("페이지 정보를 받아오지 못했습니다:", error);

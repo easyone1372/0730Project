@@ -6,6 +6,12 @@ import axios from "axios";
 import InfoReviewEditBox from "./InfoReviewEditBox";
 import { jwtDecode } from "jwt-decode";
 import { log } from "console";
+import {
+  INFO_REVEIW_UPDATE,
+  INFO_REVIEW_DELETE,
+  INFO_REVIEW_LIST,
+  INFO_UPDATE_STORE_RATING,
+} from "../../Urls/URLList";
 
 type InfoReviewListProps = {
   store_id: number;
@@ -18,7 +24,9 @@ const InfoReviewList = ({
   infoNewReviewList,
   fetchAverageRating,
 }: InfoReviewListProps) => {
-  const [infoReviewList, setInfoReviewList] = useState<InfoReviewComponentProps[]>([]);
+  const [infoReviewList, setInfoReviewList] = useState<
+    InfoReviewComponentProps[]
+  >([]);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   const getToken = () => {
@@ -41,8 +49,7 @@ const InfoReviewList = ({
   const fetchReview = useCallback(async () => {
     try {
       const token = getToken();
-      const url = `http://localhost:8080/api/info/info_review/${store_id}`;
-      const response = await axios.get(url, {
+      const response = await axios.get(INFO_REVIEW_LIST(store_id), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data: InfoReviewComponentProps[] = response.data.reverse();
@@ -53,20 +60,23 @@ const InfoReviewList = ({
     }
   }, [store_id]);
 
-  const updateStoreRating = useCallback(async (rating: number) => {
-    try {
-      const token = getToken();
-      await axios.post(
-        `http://localhost:8080/api/info/update_store_rating/${store_id}`,
-        { reviewRating: rating },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-    } catch (error) {
-      console.error("별점 평균 업데이트 중 오류 발생: ", error);
-    }
-  }, [store_id]);
+  const updateStoreRating = useCallback(
+    async (rating: number) => {
+      try {
+        const token = getToken();
+        await axios.post(
+          INFO_UPDATE_STORE_RATING(store_id),
+          { reviewRating: rating },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+      } catch (error) {
+        console.error("별점 평균 업데이트 중 오류 발생: ", error);
+      }
+    },
+    [store_id]
+  );
 
   useEffect(() => {
     fetchReview();
@@ -81,12 +91,9 @@ const InfoReviewList = ({
       try {
         console.log("리뷰 삭제 요청 시작:", review_id);
         const token = getToken();
-        await axios.delete(
-          `http://localhost:8080/api/info/review_delete/${review_id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        await axios.delete(INFO_REVIEW_DELETE(review_id), {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         console.log("리뷰 삭제 요청 완료");
         await fetchReview();
         await fetchAverageRating();
@@ -107,7 +114,7 @@ const InfoReviewList = ({
         console.log("리뷰 수정:" + reviewId, content, rating);
 
         await axios.put(
-          `http://localhost:8080/api/info/review_update/${reviewId}`,
+          INFO_REVEIW_UPDATE(reviewId),
           {
             comment: content,
             reviewRating: rating,

@@ -6,6 +6,11 @@ import InfoSubmitBtn from "../atom/InfoSubmitBtn";
 import InfoReviewStarComponent from "./InfoReviewStarComponent";
 import { InfoReviewComponentProps } from "./InfoReviewComponent";
 import { log } from "console";
+import {
+  INFO_REVIEW_INPUT,
+  INFO_REVIEW_LIST,
+  INFO_UPDATE_STORE_RATING,
+} from "../../Urls/URLList";
 
 type InfoReviewInputBoxProps = {
   store_id: number;
@@ -62,10 +67,13 @@ const InfoReviewInputBox = ({
   const fetchReviewList = useCallback(async () => {
     try {
       const token = getToken();
-      const url = `http://localhost:8080/api/info/info_review/${store_id}`;
-      const response = await axios.get<InfoReviewComponentProps[]>(url, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+
+      const response = await axios.get<InfoReviewComponentProps[]>(
+        INFO_REVIEW_LIST(store_id),
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const data = response.data.reverse();
       console.log("리뷰데이터" + data);
@@ -86,7 +94,7 @@ const InfoReviewInputBox = ({
         reviewRating: reviewRating,
       });
       await axios.post(
-        `http://localhost:8080/api/info/update_store_rating/${store_id}`,
+        INFO_UPDATE_STORE_RATING(store_id),
         {
           reviewRating: reviewRating,
         },
@@ -131,7 +139,7 @@ const InfoReviewInputBox = ({
         reviewRating: reviewRating,
       });
       const response = await axios.post<ReviewResponse>(
-        `http://localhost:8080/api/info/review_input`,
+        INFO_REVIEW_INPUT(),
         {
           memberIdx: member_idx,
           storeId: store_id,

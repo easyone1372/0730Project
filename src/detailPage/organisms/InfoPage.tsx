@@ -6,6 +6,7 @@ import InfoMenuBox from "../molecules/InfoMenuBox";
 import InfoReviewBox from "../molecules/InfoReviewBox";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import { INFO_AVERAGE_RATING } from "../../Urls/URLList";
 
 const InfoPage = () => {
   const { store_id } = useParams<{ store_id: string }>();
@@ -25,7 +26,7 @@ const InfoPage = () => {
   const fetchAverageRating = useCallback(async () => {
     try {
       const response = await axios.get<number>(
-        `http://localhost:8080/api/info/average_rating/${store_id}`
+        INFO_AVERAGE_RATING(Number(store_id))
       );
       setAverageRating(response.data);
     } catch (error) {
