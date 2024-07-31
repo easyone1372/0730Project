@@ -1,11 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { infoContentProps } from "./InfoImage";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-
-type InfoDetailProps = {
-  content: string;
-  detailIcon: IconProp;
-};
+import { InfoDetailProps } from "./InfoProps";
 
 //상세 설명 - 위치, 번호, 설명 등을 위한 component
 const InfoDetail = ({ content, detailIcon }: InfoDetailProps) => {

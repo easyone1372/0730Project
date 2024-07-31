@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
+import { InfoReviewInputProps } from "./InfoProps";
 
 //상세 페이지 - 리뷰 작성
-type InfoReviewInputProps = {
-  setComment: React.Dispatch<React.SetStateAction<string>>;
-  reset?: boolean;
-};
-
 const InfoReviewInput: React.FC<InfoReviewInputProps> = ({
   setComment,
   reset,

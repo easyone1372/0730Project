@@ -1,5 +1,3 @@
-import { InfoEditBtnProps } from "./InfoEditBtn";
-
 //상세 페이지 - 등록 버튼 구성
 type InfoSubmitBtnProps = {
   clickEvent: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;

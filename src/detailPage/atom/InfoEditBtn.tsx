@@ -1,12 +1,7 @@
-import { infoContentProps } from "./InfoImage";
+import { InfoBtnProps } from "./InfoProps";
 
 //상세 페이지 - 간단 버튼 구성 (수정, 삭제)
-export type InfoEditBtnProps = {
-  content: string;
-  clickEvent: () => void;
-};
-
-const InfoEditBtn = ({ content, clickEvent }: InfoEditBtnProps) => {
+const InfoEditBtn = ({ content, clickEvent }: InfoBtnProps) => {
   return (
     <div
       className="text-skipLB text-base hover:cursor-pointer"
